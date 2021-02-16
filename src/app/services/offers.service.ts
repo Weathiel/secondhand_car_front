@@ -3,9 +3,15 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { URL } from '../config';
 import { Offer } from '../offer';
+import { Car } from '../car';
+import { OfferFilter } from '../offerFilter';
 
 @Injectable({ providedIn: 'root' })
 export class OffersService {
+
+    offer: Offer;
+    offerId: number;
+
     constructor(private http: HttpClient,
                 private url: URL) { }
     getAll(index: number, pageSize: number , sortBy: string, sortOrder: string) {
@@ -29,5 +35,15 @@ export class OffersService {
     }
     delete(id: number) {
         return this.http.delete(this.url.url + `offers/${id}`);
+    }
+    findFiltered(filter: OfferFilter) {
+        return this.http.post(this.url.url + `offers/findOffer`, filter);
+    }
+    getOne(id: number) {
+        return this.http.get(this.url.url + `offers/${id}`);
+    }
+
+    getQueue(vin: string) {
+        return this.http.get(this.url.url + `offers/queue/${vin}`);
     }
 }

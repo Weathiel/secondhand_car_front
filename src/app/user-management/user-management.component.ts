@@ -8,6 +8,7 @@ import { ManagementDialogComponent } from '../management-dialog/management-dialo
 import { element } from 'protractor';
 import { Offer } from '../offer';
 import { AuthenticationService } from '../services/authentication.service';
+import { DetailsOrdersDialogComponent } from '../orders-managment/orders-managment.component';
 
 @Component({
   selector: 'app-user-management',
@@ -16,7 +17,7 @@ import { AuthenticationService } from '../services/authentication.service';
 })
 export class UserManagementComponent implements OnInit {
   users: User[];
-  displayedColumns: string[] = ['id', 'firstName', 'lastName', 'username', 'email', 'edit', 'delete'];
+  displayedColumns: string[] = ['firstName', 'lastName', 'username', 'email', 'details', 'edit', 'delete'];
   pageSize = 10;
   length: number;
   pageSizeOptions: number[] = [ 10, 1, 30 ];
@@ -36,6 +37,7 @@ export class UserManagementComponent implements OnInit {
     });
   }
 
+
   changePage(event: PageEvent) {
     this.userService.getAll(event.pageIndex, event.pageSize).subscribe(data => {
       // this.users = new Array<User>();
@@ -48,20 +50,31 @@ export class UserManagementComponent implements OnInit {
     const dialogRef = this.dialog.open(EditUserDialogComponent, {
       width: '350px'
     });
+
     dialogRef.afterClosed().pipe(first()).subscribe(role => {
-      const user = this.users.find(ele => ele.userId === id);
-      switch (role) {
-        case 'ROLE_WORKER':
-          user.roleId = 2;
-          break;
-        case 'ROLE_USER':
-          user.roleId = 1;
-          break;
-        case 'ROLE_ADMIN':
-          user.roleId = 3;
-          break;
+        const user = this.users.find(ele => ele.userId === id);
+        switch (role) {
+          case 'ROLE_WORKER':
+            user.roleId = 2;
+            break;
+          case 'ROLE_USER':
+            user.roleId = 1;
+            break;
+          case 'ROLE_ADMIN':
+            user.roleId = 3;
+            break;
+          }
+        if (role != null && user != null && id != null) {
+          this.userService.update(id, user).pipe(first()).subscribe();
         }
-      this.userService.update(id, user).pipe(first()).subscribe();
+      });
+
+  }
+
+  details(username) {
+    const dialogRef = this.dialog.open(DetailsUserDialogComponent, {
+      width: '500px',
+      data: {userUsername: username}
     });
   }
 
@@ -71,12 +84,12 @@ export class UserManagementComponent implements OnInit {
           width: '500px',
           data: {users: allUsers}
         });
-        dialogRef.afterClosed().pipe(first()).subscribe(data => {
-          if (data != null) {
-            this.users = data;
-            this.dataSource.data = this.users;
-            this.length = data.length;
-          }
+        dialogRef.afterClosed().pipe(first()).subscribe((data: User) => {
+          this.userService.filter(data).subscribe((users: User[]) => {
+              this.users = users;
+              this.dataSource = new MatTableDataSource(this.users);
+              this.length = users.length;
+          });
         });
       }));
 
@@ -120,6 +133,28 @@ export class EditUserDialogComponent {
 }
 
 @Component({
+  selector: 'app-user-management-dialog',
+  templateUrl: 'details-user-dialog.html',
+})
+export class DetailsUserDialogComponent {
+  private users: User[];
+
+  constructor(
+    public dialogRef: MatDialogRef<EditUserDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private userService: UserService) {
+      this.userService.getUserByUsername(this.data.userUsername).subscribe((user: User) => {
+        this.users = [];
+        this.users.push(user);
+      });
+    }
+
+    onClick(): void {
+      this.dialogRef.close();
+    }
+}
+
+@Component({
   selector: 'app-user-filter-dialog',
   templateUrl: 'filter-user-dialog.html',
 })
@@ -134,15 +169,22 @@ export class FilterUserDialogComponent {
     }
 
     onClick(): void {
-      const user = this.data.users.filter(searchedUsers => {
-        if ( (searchedUsers.username === this.username || this.username == null || this.username === '') &&
-             (searchedUsers.lastName === this.lastname || this.lastname == null || this.lastname === '') &&
-             (searchedUsers.firstName === this.firstname || this.firstname == null || this.firstname === '') ) {
-             
-            return searchedUsers;
-        }
-      });
-      this.dialogRef.close(user);
+      const userDto = new User();
+      userDto.username = this.username;
+      userDto.firstName = this.firstname;
+      userDto.lastName = this.lastname;
+
+      if (this.username == null) {
+        userDto.username = '';
+      }
+      if (this.firstname == null) {
+        userDto.firstName = '';
+      }
+      if (this.lastname == null) {
+        userDto.lastName = '';
+      }
+
+      this.dialogRef.close(userDto);
     }
 }
 

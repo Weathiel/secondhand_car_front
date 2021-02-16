@@ -16,7 +16,7 @@ export class ErrorInterceptor implements HttpInterceptor {
           retry(1),
           catchError((error: HttpErrorResponse) => {
             let errorMessage = '';
-            if (error.error instanceof ErrorEvent) {
+            if (error.status > 400 && error.status < 500) {
               // client-side error
               errorMessage = `Error: ${error.error.message}`;
             } else {

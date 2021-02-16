@@ -1,0 +1,24 @@
+<mat-grid-list cols="1" rows="1" rowHeight="2.3:1.5" gutterSize="25">
+    <mat-grid-tile *ngFor="let offer of offers">
+        <mat-card style="width: 50%;">
+            <img mat-card-image style="width: 102.5%; height: 5% !important;" src="data:image/jpg;base64,{{offer.image}}">
+            <mat-card-content>
+                <mat-list>
+                    <mat-list-item> Brand: {{offer.cars.brand}} </mat-list-item>
+                    <mat-list-item> Model: {{offer.cars.model}} </mat-list-item>
+                    <mat-list-item> Milleage: {{offer.mileage | number: '0.0-0'}} </mat-list-item>
+                    <mat-list-item> Price: {{offer.price | number: '0.0-0'}}</mat-list-item>
+                    <mat-list-item> Production Date: {{offer.production_date | date:'MMM y'}}</mat-list-item>
+                    <mat-list-item> Color: {{offer.color}}</mat-list-item>
+                    <mat-list-item> Production Country: {{offer.prod_country}}</mat-list-item>
+                    <mat-list-item> English Car: {{offer.englishCar}}</mat-list-item>
+                    <mat-list-item> Vin: {{offer.vin}}</mat-list-item>
+                    <mat-list-item> Queue: {{queue}}</mat-list-item>
+                    <mat-list-item>
+                        <button mat-raised-button color="primary" *ngIf = "loggedIn" (click)="order(offer)">Order</button></mat-list-item>
+                </mat-list>
+            </mat-card-content>
+          </mat-card >
+          
+    </mat-grid-tile>
+</mat-grid-list>

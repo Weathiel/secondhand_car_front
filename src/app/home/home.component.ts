@@ -15,6 +15,8 @@ import { Contract } from '../contract';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { Currency } from '../currency';
 import { CurrencyService } from '../services/currency.service';
+import { OfferDetailsComponent } from '../offer-details/offer-details.component';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -36,7 +38,9 @@ export class HomeComponent implements OnInit {
               private ordersService: OrdersService,
               public dialog: MatDialog,
               private authService: AuthenticationService,
-              private currencyService: CurrencyService) {
+              private currencyService: CurrencyService,
+              private router: Router,
+              private route: ActivatedRoute) {
                 this.authService.currentUser.subscribe(data => {
                   this.loggedIn = !!data;
                   if ( !!data ) {
@@ -92,7 +96,6 @@ export class HomeComponent implements OnInit {
   }
 
   filter() {
-    console.log(this.offers[0].image);
     this.carsService.getAll().pipe().subscribe(car => {
       this.offersService.getLenght().subscribe(length => this.offersService.getAll(0, length, `offerId`, `asc`).subscribe(allOffers => {
         const dialogRef = this.dialog.open(HomeFilterOfferDialogComponent, {
@@ -112,6 +115,12 @@ export class HomeComponent implements OnInit {
       }));
     });
 
+  }
+
+  details(id: Offer) {
+    this.offersService.offerId = id.offerId;
+    console.log(id);
+    this.router.navigate(['offerDetail']);
   }
 
 }

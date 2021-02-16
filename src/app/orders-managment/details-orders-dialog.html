@@ -1,0 +1,26 @@
+<h1 mat-dialog-title>Offers Details</h1>
+<div mat-dialog-content>
+    <img mat-card-image style="width: 102.5%; height: 5% !important;" src="data:image/jpg;base64,{{image}}">
+        <div *ngFor="let order of orders">
+
+                    <mat-list>
+                        <mat-list-item> Brand: {{order.offers.cars.brand}} </mat-list-item>
+                        <mat-list-item> Model: {{order.offers.cars.model}} </mat-list-item>
+                        <mat-list-item> Body Type: {{order.offers.cars.body_type}} </mat-list-item>
+                        <mat-list-item> Gas Type: {{order.offers.cars.gas_type}} </mat-list-item>
+                        <mat-list-item> Engine Power: {{order.offers.cars.engine_power}} </mat-list-item>
+                        <mat-list-item> Milleage: {{order.offers.mileage | number: '0.0-0'}} </mat-list-item>
+                        <mat-list-item> Price to pay: {{order.offers.price + (order.offers.price*(0.01 * order.discount)) | number: '0.0-0'}}</mat-list-item>
+                        <mat-list-item> Production Country: {{order.offers.prod_country}}</mat-list-item>
+                        <mat-list-item> Production Date: {{order.offers.production_date | date:'MMM y'}}</mat-list-item>
+                        <mat-list-item> Color: {{order.offers.color}}</mat-list-item>
+                        <mat-list-item> English Car: {{order.offers.englishCar}}</mat-list-item>
+                        <mat-list-item> Vin: {{order.offers.vin}}</mat-list-item>
+                        <mat-list-item> Already paid price: {{order.contract.deposit}}</mat-list-item>
+                        <mat-list-item> Is contract done: {{order.contract.done}}</mat-list-item>
+                    </mat-list>
+              
+                </div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onClick()">OK</button>
+</div>

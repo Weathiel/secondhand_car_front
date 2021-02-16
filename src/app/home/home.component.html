@@ -10,7 +10,8 @@
                     <mat-list-item> Milleage: {{offer.mileage | number: '0.0-0'}} </mat-list-item>
                     <mat-list-item> Price: {{offer.price | number: '0.0-0'}}</mat-list-item>
                     <mat-list-item> Production Date: {{offer.production_date | date:'MMM y'}}</mat-list-item>
-                    <mat-list-item *ngIf = "loggedIn"><button mat-raised-button color="primary" (click)="order(offer)">Order</button></mat-list-item>
+                    <mat-list-item>
+                        <button mat-raised-button color="primary" (click)="details(offer)">Details</button></mat-list-item>
                 </mat-list>
             </mat-card-content>
           </mat-card>

@@ -4,20 +4,8 @@
         <button mat-icon-button matTooltip="Edit profile" routerLink="/editprofile" *ngIf="loggedIn">
           <mat-icon>edit icon</mat-icon>
         </button>
-        <mat-form-field>
-          <mat-label>Current Currency</mat-label>
-          <mat-select [(ngModel)]="currency" name="currency.value" #mySelect
-          (selectionChange)='onCurrencyChange($event)'>
-            <mat-option *ngFor="let currency of currencies" [value]="currency">
-              {{currency.currency_name}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
         <span class="fill-remaining-space"></span>
-        <button mat-icon-button matTooltip="Send message" routerLink="/message" *ngIf="loggedIn">
-      <mat-icon>message</mat-icon>
-    </button>
-    <button mat-icon-button matTooltip="Manage cars" *ngIf="userRole != null" routerLink="/carsmanagement">
+    <button mat-icon-button matTooltip="Manage cars" *ngIf="userRole" routerLink="/carsmanagement">
       <mat-icon>commute</mat-icon>
     </button>
     <button mat-icon-button matTooltip="Manage order" *ngIf="userRole != null" routerLink="/ordermanagement">

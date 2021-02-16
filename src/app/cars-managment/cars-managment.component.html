@@ -1,8 +1,4 @@
 <mat-table [dataSource]="dataSource" matSort (matSortChange) = "sort($event)" class="mat-elevation-z8">
-    <ng-container matColumnDef="carId">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Id. </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.carId}} </mat-cell>
-    </ng-container>
 
     <ng-container matColumnDef="brand">
         <mat-header-cell *matHeaderCellDef mat-sort-header> Brand </mat-header-cell>

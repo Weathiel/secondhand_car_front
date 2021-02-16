@@ -31,11 +31,13 @@ export class NavbarComponent implements OnInit {
     this.authService.currentUser.subscribe(data => {
       this.loggedIn = !!data;
       if ( !!data ) {
-        if (data.role[0] !== 'ROLE_USER') {
-          this.userRole = true;
-        } else {
-          this.userRole = false;
-        }
+        this.userRole = false;
+        data.role.forEach(rol => {
+            if (rol === 'ROLE_WORKER') {
+             this.userRole = true;
+            }
+        });
+
       } else {
         this.userRole = null;
       }

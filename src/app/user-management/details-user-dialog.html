@@ -1,0 +1,16 @@
+<h1 mat-dialog-title>User Details</h1>
+<div mat-dialog-content>
+        <div *ngFor="let user of users">
+
+                    <mat-list>
+                        <mat-list-item> Username: {{user.username}} </mat-list-item>
+                        <mat-list-item> Firstname: {{user.firstname}} </mat-list-item>
+                        <mat-list-item> Lastname: {{user.lastname}} </mat-list-item>
+                        <mat-list-item> Email: {{user.email}} </mat-list-item>
+                        <mat-list-item> Phone number: {{user.phoneNumber}} </mat-list-item>
+                    </mat-list>
+              
+                </div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onClick()">OK</button>
+</div>

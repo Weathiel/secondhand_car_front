@@ -1,8 +1,5 @@
 <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-    <ng-container matColumnDef="id">
-        <mat-header-cell *matHeaderCellDef> Id. </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.userId}} </mat-cell>
-    </ng-container>
+
 
     <ng-container matColumnDef="firstName">
         <mat-header-cell *matHeaderCellDef> First Name </mat-header-cell>
@@ -22,6 +19,11 @@
     <ng-container matColumnDef="email">
         <mat-header-cell *matHeaderCellDef> Email </mat-header-cell>
         <mat-cell *matCellDef="let element"> {{element.email}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="details">
+        <mat-header-cell *matHeaderCellDef> Details </mat-header-cell>
+        <mat-cell *matCellDef="let element"> <button mat-raised-button color="primary" (click) = "details(element.username)">Details</button> </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="edit">

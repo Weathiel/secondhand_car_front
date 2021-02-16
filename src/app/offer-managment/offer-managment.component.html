@@ -3,6 +3,11 @@
             <mat-header-cell *matHeaderCellDef mat-sort-header> Id. </mat-header-cell>
             <mat-cell *matCellDef="let element"> {{element.offerId}} </mat-cell>
         </ng-container>
+
+        <ng-container matColumnDef="vin">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> VIN </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.vin}} </mat-cell>
+        </ng-container>
     
         <ng-container matColumnDef="cars.brand">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Brand </mat-header-cell>
@@ -29,6 +34,11 @@
             <mat-cell *matCellDef="let element"> {{element.archivized}} </mat-cell>
         </ng-container>
     
+        <ng-container matColumnDef="details">
+            <mat-header-cell *matHeaderCellDef > Details </mat-header-cell>
+            <mat-cell *matCellDef="let element"> <button mat-raised-button color="primary" (click) = "details(element.offerId)">Details</button> </mat-cell>
+        </ng-container>
+
         <ng-container matColumnDef="edit">
             <mat-header-cell *matHeaderCellDef > Edit </mat-header-cell>
             <mat-cell *matCellDef="let element"> <button mat-raised-button color="primary" (click) = "edit(element.offerId)">Edit</button> </mat-cell>

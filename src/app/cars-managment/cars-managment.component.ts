@@ -14,7 +14,7 @@ import { OffersService } from '../services/offers.service';
 })
 export class CarsManagmentComponent implements OnInit {
   cars: Car[];
-  displayedColumns: string[] = ['carId', 'brand', 'model',
+  displayedColumns: string[] = ['brand', 'model',
    'body_type', 'gas_type', 'engine_power', 'edit', 'delete'];
   pageIndex = 0;
   pageSize = 10;
@@ -42,6 +42,7 @@ export class CarsManagmentComponent implements OnInit {
           width: '500px',
           data: {cars: car}
         });
+
         dialogRef.afterClosed().pipe(first()).subscribe(data => {
           if (data != null) {
             this.offers = data;
@@ -54,11 +55,32 @@ export class CarsManagmentComponent implements OnInit {
   }
 
   delete(id) {
-    this.carsService.delete(id).subscribe();
+    this.carsService.delete(id).subscribe(() => {
+      this.carsService.getAll().subscribe(ca => {
+        this.offers = ca;
+        this.dataSource = new MatTableDataSource(ca);
+        this.length = ca.length;
+      });
+    });
   }
 
   edit(id) {
+    const dialogRef = this.dialog.open(CreateCarsDialogComponent, {
+      width: '500px',
+      data: {carId: id}
+    });
 
+    dialogRef.afterClosed().pipe(first()).subscribe((off: Car) => {
+      if (off != null) {
+        this.carsService.update(id, off).subscribe((dataCar: Car) => {
+          this.carsService.getAll().subscribe(dataAll => {
+            this.offers = dataAll;
+            this.dataSource = new MatTableDataSource(this.offers);
+            this.length = dataAll.length;
+          });
+        });
+      }
+    });
   }
 
   sort(sort: Sort) {
@@ -76,13 +98,17 @@ export class CarsManagmentComponent implements OnInit {
         data: {}
       });
 
-      dialogRef.afterClosed().pipe(first()).subscribe(off => {
-        this.carsService.create(off).subscribe();
-        this.carsService.getLenght().subscribe(data => {
-          this.length = data;
-          this.cars.push(off);
-          this.dataSource = new MatTableDataSource(this.cars);
-        });
+      dialogRef.afterClosed().pipe(first()).subscribe((off: Car) => {
+        if (off != null) {
+          this.carsService.create(off).subscribe((dataCar: Car) => {
+            this.carsService.getAll().subscribe(dataAll => {
+              this.offers = dataAll;
+              this.dataSource = new MatTableDataSource(this.offers);
+              this.length = dataAll.length;
+            });
+          });
+
+        }
 
     });
   }
@@ -102,9 +128,25 @@ export class CreateCarsDialogComponent {
   private body_type: string;
   // tslint:disable-next-line:variable-name
   private engine_power: number;
+  public date: Date;
+  public endDate: Date;
 
   constructor(
-    public dialogRef: MatDialogRef<CreateCarsDialogComponent>) {
+    public dialogRef: MatDialogRef<CreateCarsDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public carsService: CarsService) {
+      console.log(data.carId);
+      if (data.carId != null) {
+        carsService.getOne(data.carId).subscribe((car: Car) => {
+          this.model = car.model;
+          this.brand = car.brand;
+          this.gas_type = car.gas_type;
+          this.body_type = car.body_type;
+          this.engine_power = car.engine_power;
+          this.date = car.s_production_year;
+          this.endDate = car.e_production_year;
+        });
+      }
     }
 
     onClick(): void {
@@ -114,6 +156,9 @@ export class CreateCarsDialogComponent {
       c.engine_power = this.engine_power;
       c.gas_type = this.gas_type;
       c.model = this.model;
+      c.e_production_year = this.endDate;
+      c.s_production_year = this.date;
+      console.log(c);
       this.dialogRef.close(c);
     }
 

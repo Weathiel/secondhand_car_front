@@ -6,6 +6,7 @@ import { URL } from '../config';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
+
     constructor(private http: HttpClient,
                 private url: URL) { }
 
@@ -14,9 +15,16 @@ export class UserService {
         return this.http.get<User[]>(this.url.url + `user?page=` + index + `&size=` + pageSize, {headers: new HttpHeaders().set('Content-Type', 'application/json') });
     }
 
+    filter(data: User) {
+        return this.http.post(this.url.url + `user/filter`, data);
+      }
+
     register(user: User) {
-        console.log(user);
         return this.http.post(this.url.url + `user/register`, user);
+    }
+
+    getUserByUsername(username: string) {
+        return this.http.get(this.url.url + `user?username=${username}`);
     }
 
     getLenght() {
@@ -28,7 +36,17 @@ export class UserService {
         return this.http.delete<void>(this.url.url + `user/${id}`);
     }
 
+    editProfile(id: number, user: User) {
+        if (id != null) {
+            return this.http.put(this.url.url + `user/editProfile/${id}`, user);
+        }
+        return;
+    }
+
     update(id: number, user: User) {
-        return this.http.put(this.url.url + `user/${id}`, user);
+        if (id != null) {
+            return this.http.put(this.url.url + `user/${id}`, user);
+        }
+        return;
     }
 }

@@ -10,11 +10,13 @@ import { OfferManagmentComponent } from './offer-managment/offer-managment.compo
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { MessageComponent } from './message/message.component';
 import { CarsManagmentComponent } from './cars-managment/cars-managment.component';
+import { OfferDetailsComponent } from './offer-details/offer-details.component';
 
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent },
+  { path: 'offerDetail', component: OfferDetailsComponent },
   { path: 'editprofile', component: EditProfileComponent, canActivate: [AuthGuard]},
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },

@@ -1,13 +1,13 @@
 
 <mat-table [dataSource]="dataSource" matSort (matSortChange) = "sort($event)" class="mat-elevation-z8">
-        <ng-container matColumnDef="orderId">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> Id. </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.orderId}} </mat-cell>
+        <ng-container matColumnDef="username">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Username </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.user.username}} </mat-cell>
         </ng-container>
-    
-        <ng-container matColumnDef="user.userId">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> User Id </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.user.userId}} </mat-cell>
+
+        <ng-container matColumnDef="vin">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> VIN </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.offers.vin}}% </mat-cell>
         </ng-container>
     
         <ng-container matColumnDef="discount">
@@ -27,13 +27,18 @@
     
         <ng-container matColumnDef="totalPrice">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Totalprice </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.totalPrice | number: '0.0-0'}} </mat-cell>
+            <mat-cell *matCellDef="let element"> {{element.offers.price - element.contract.deposit | number: '0.0-0'}} </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="createdDate">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> Created At </mat-header-cell>
                 <mat-cell *matCellDef="let element"> {{element.createdDate | date: 'MMMM d, y, h:mm:ss a'}} </mat-cell>
             </ng-container>
+
+        <ng-container matColumnDef="details">
+                <mat-header-cell *matHeaderCellDef> Details </mat-header-cell>
+                <mat-cell *matCellDef="let element"> <button mat-raised-button color="primary" (click) = "details(element.orderId)">Details</button> </mat-cell>
+        </ng-container>
     
         <ng-container matColumnDef="edit">
             <mat-header-cell *matHeaderCellDef> Edit </mat-header-cell>

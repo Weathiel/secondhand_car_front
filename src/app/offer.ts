@@ -3,6 +3,7 @@ import { Car } from './car';
 // tslint:disable:variable-name
 export class Offer {
     offerId: number;
+    vin: string;
     mileage: number;
     price: number;
     priceBack: number;

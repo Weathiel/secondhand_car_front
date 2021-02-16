@@ -15,16 +15,20 @@ import { JwtInterceptor } from './jwt.interceptor';
 import { ErrorInterceptor } from './error.interceptor';
 import { HttpModule } from '@angular/http';
 import { AlertComponent } from './alert/alert.component';
-import { UserManagementComponent, EditUserDialogComponent, FilterUserDialogComponent } from './user-management/user-management.component';
+import { UserManagementComponent, EditUserDialogComponent,
+   FilterUserDialogComponent, DetailsUserDialogComponent } from './user-management/user-management.component';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material';
 import { ManagementDialogComponent } from './management-dialog/management-dialog.component';
-import { OrdersManagmentComponent, EditOrdersDialogComponent, FilterOrdersDialogComponent } from './orders-managment/orders-managment.component';
+// tslint:disable-next-line:max-line-length
+import { OrdersManagmentComponent, EditOrdersDialogComponent, FilterOrdersDialogComponent, DetailsOrdersDialogComponent } from './orders-managment/orders-managment.component';
 import { OfferManagmentComponent,
-   EditOfferDialogComponent, CreateOfferDialogComponent, FilterOfferDialogComponent } from './offer-managment/offer-managment.component';
+    EditOfferDialogComponent, CreateOfferDialogComponent,
+    FilterOfferDialogComponent, DetailsOfferDialogComponent } from './offer-managment/offer-managment.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { MessageComponent } from './message/message.component';
 import { MessageService } from './services/message.service';
 import { CarsManagmentComponent, CreateCarsDialogComponent, FilterCarsDialogComponent } from './cars-managment/cars-managment.component';
+import { OfferDetailsComponent } from './offer-details/offer-details.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +54,11 @@ import { CarsManagmentComponent, CreateCarsDialogComponent, FilterCarsDialogComp
     CreateCarsDialogComponent,
     FilterOrdersDialogComponent,
     FilterCarsDialogComponent,
-    FilterUserDialogComponent
+    FilterUserDialogComponent,
+    DetailsOfferDialogComponent,
+    OfferDetailsComponent,
+    DetailsOrdersDialogComponent,
+    DetailsUserDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -64,11 +72,11 @@ import { CarsManagmentComponent, CreateCarsDialogComponent, FilterCarsDialogComp
     RouterModule
   ],
   providers: [{ provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: true, direction: 'ltr'}}],
   bootstrap: [AppComponent],
   entryComponents: [ManagementDialogComponent, EditUserDialogComponent, EditOrdersDialogComponent,
      EditOfferDialogComponent, CreateOfferDialogComponent, FilterOfferDialogComponent, HomeFilterOfferDialogComponent,
-      CreateCarsDialogComponent, FilterOrdersDialogComponent, FilterCarsDialogComponent, FilterUserDialogComponent]
+      CreateCarsDialogComponent, FilterOrdersDialogComponent, FilterCarsDialogComponent,
+      FilterUserDialogComponent, DetailsOfferDialogComponent, DetailsOrdersDialogComponent, DetailsUserDialogComponent]
 })
 export class AppModule { }
