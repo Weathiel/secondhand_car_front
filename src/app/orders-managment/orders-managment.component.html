@@ -40,7 +40,7 @@
                 <mat-cell *matCellDef="let element"> <button mat-raised-button color="primary" (click) = "details(element.orderId)">Details</button> </mat-cell>
         </ng-container>
     
-        <ng-container matColumnDef="edit">
+        <ng-container *ngIf="role" matColumnDef="edit">
             <mat-header-cell *matHeaderCellDef> Edit </mat-header-cell>
             <mat-cell *matCellDef="let element"> <button mat-raised-button color="primary" (click) = "edit(element.orderId)">Edit</button> </mat-cell>
         </ng-container>

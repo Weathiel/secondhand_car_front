@@ -9,4 +9,6 @@ export class User {
     roleId: number;
     token: string;
     role: string[];
+    city: string;
+    address: string;
 }

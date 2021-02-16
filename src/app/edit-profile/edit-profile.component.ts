@@ -22,15 +22,20 @@ export class EditProfileComponent implements OnInit {
               private alertService: AlertService) { }
 
   ngOnInit() {
-    this.form = this.formBuilder.group({
-      firstName: [null, Validators.nullValidator],
-      lastName: [null, Validators.nullValidator],
-      username: [null, Validators.nullValidator],
-      password: [null, Validators.nullValidator],
-      address: [null, Validators.nullValidator],
-      email: [null, [Validators.nullValidator, Validators.pattern('^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$')]],
-      city: [null, Validators.nullValidator],
-      phoneNumber: [null, [Validators.nullValidator, Validators.pattern('^[-\s\./0-9]*$')]]
+    this.authService.currentUser.subscribe(user => {
+      this.userService.getUserByUsername(user.username).subscribe((u: User) => {
+        this.form = this.formBuilder.group({
+          firstName: [u.firstName, Validators.nullValidator],
+          lastName: [u.lastName, Validators.nullValidator],
+          username: [u.username, Validators.nullValidator],
+          password: [null, Validators.nullValidator],
+          address: [u.address, Validators.nullValidator],
+          // tslint:disable-next-line:max-line-length
+          email: [u.email, [Validators.nullValidator, Validators.pattern('^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$')]],
+          city: [u.city, Validators.nullValidator],
+          phoneNumber: [u.phoneNumber, [Validators.nullValidator, Validators.pattern('^[-\s\./0-9]*$')]]
+        });
+      });
     });
   }
 

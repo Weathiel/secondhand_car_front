@@ -9,6 +9,7 @@ import { CarsService } from '../services/cars.service';
 import { FormControl, FormBuilder } from '@angular/forms';
 import { CurrencyService } from '../services/currency.service';
 import { OfferFilter } from '../offerFilter';
+import { AuthenticationService } from '../services/authentication.service';
 
 @Component({
   selector: 'app-offer-managment',
@@ -27,11 +28,13 @@ export class OfferManagmentComponent implements OnInit {
   sortBy = 'offerId';
   sortOrder = 'asc';
   dataSource: MatTableDataSource<Offer>;
+  role: boolean;
 
   constructor(private offersService: OffersService,
               private carsService: CarsService,
               public dialog: MatDialog,
               private currencyService: CurrencyService) {
+                
     offersService.getAll(this.pageIndex, this.pageSize, this.sortBy, this.sortOrder).subscribe(data => {
       this.offers = data;
       this.offers.every(back => back.priceBack = back.price);

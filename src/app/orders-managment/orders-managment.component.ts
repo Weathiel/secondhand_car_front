@@ -18,7 +18,7 @@ export class OrdersManagmentComponent implements OnInit {
   dataSource: MatTableDataSource<Orders>;
   orders: Orders[];
   displayedColumns: string[] = ['username', 'vin', 'totalPrice',
-   'discount', 'contract.done', 'contract.deposit', 'createdDate', 'details', 'edit', 'delete'];
+   'discount', 'contract.done', 'contract.deposit', 'createdDate', 'details', 'delete'];
   pageSize = 10;
   pageIndex = 0;
   length: number;
@@ -26,11 +26,21 @@ export class OrdersManagmentComponent implements OnInit {
   sortOrder = 'asc';
   pageSizeOptions: number[] = [ 10, 1, 30 ];
   isWorker = false;
+  role = false;
 
   constructor(private ordersService: OrdersService,
               private offersService: OffersService,
               private authService: AuthenticationService,
               public dialog: MatDialog) {
+                authService.currentUser.subscribe(data => {
+                  data.role.forEach(role => {
+                    if (role === 'ROLE_ADMIN' || role === 'ROLE_WORKER') {
+                      this.role = true;
+                      this.displayedColumns = ['username', 'vin', 'totalPrice',
+   'discount', 'contract.done', 'contract.deposit', 'createdDate', 'details', 'edit', 'delete'];
+                    }
+                  });
+                });
    }
 
 
@@ -111,7 +121,10 @@ export class OrdersManagmentComponent implements OnInit {
     });
 
     dialogRef.afterClosed().pipe(first()).subscribe((data: boolean) => {
-      if (data === true) { this.ordersService.delete(id).subscribe();
+      if (data === true) {
+        this.ordersService.delete(id).subscribe(() => {
+          this.ngOnInit();
+        });
       }
     });
   }
