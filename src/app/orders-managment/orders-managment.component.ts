@@ -122,10 +122,10 @@ export class OrdersManagmentComponent implements OnInit {
 
     dialogRef.afterClosed().pipe(first()).subscribe((data: boolean) => {
       if (data === true) {
-        this.ordersService.delete(id).subscribe(() => {
-          this.ngOnInit();
-        });
       }
+      this.ordersService.delete(id).subscribe(() => {
+        this.ngOnInit();
+      });
     });
   }
 
