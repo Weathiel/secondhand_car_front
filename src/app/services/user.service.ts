@@ -43,11 +43,8 @@ export class UserService {
         return;
     }
 
-    update(id: number, user: User) {
-        if (id != null) {
-            return this.http.put(this.url.url + `user/${id}`, user);
-        }
-        return;
+    update(id: string, user: User) {
+        return this.http.put(this.url.url + `user/${id}`, user);
     }
 
 }
